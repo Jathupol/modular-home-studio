@@ -1,8 +1,20 @@
 {
   "name": "tanstack_start_ts",
+  "version": "1.0.0",
   "private": true,
-  "sideEffects": false,
+  "description": "สร้างเว็บไซต์สำหรับธุรกิจ “บ้านน็อคดาวน์ / บ้านสำเร็จรูป” ของฉัน โดยมีเป้าหมายหลักคือ แสดงแบบบ้านให้ลูกค้าเลือก ดูรายละเอียด และส่งคำขอสั่งจอง/ขอใบเสนอราคาได้ง่าย",
+  "homepage": "https://github.com/Jathupol/modular-home-studio#readme",
+  "bugs": {
+    "url": "https://github.com/Jathupol/modular-home-studio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jathupol/modular-home-studio.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -84,5 +96,6 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.2.0"
-  }
+  },
+  "sideEffects": false
 }
