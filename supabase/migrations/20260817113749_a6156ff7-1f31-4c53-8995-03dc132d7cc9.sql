@@ -180,11 +180,11 @@ create policy "anyone upload site media" on storage.objects for insert to anon, 
 create policy "admin read site media" on storage.objects for select to authenticated using (bucket_id = 'site-media' and public.has_role(auth.uid(),'admin'));
 
 insert into public.site_settings (key, value) values
- ('phone','082-000-1234'),
- ('line_id','@knockdownhome'),
+ ('phone','0800092139'),
+ ('line_id','08000921939'),
  ('facebook','https://facebook.com'),
  ('tiktok','https://tiktok.com'),
- ('address','123 ถนนสุขาภิบาล ต.บางพลี จ.สมุทรปราการ'),
+ ('address','-------------'),
  ('stat_delivered','480'),
  ('stat_years','12'),
  ('stat_provinces','62'),

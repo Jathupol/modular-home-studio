@@ -26,7 +26,7 @@ export function SiteHeader() {
             KD
           </span>
           <span className="text-base font-semibold tracking-tight">
-            คาซ่า น็อคดาวน์
+            นิตยา น็อคดาวน์
             <span className="block text-[11px] font-normal tracking-widest text-muted-foreground">
               PREFAB HOUSE STUDIO
             </span>
