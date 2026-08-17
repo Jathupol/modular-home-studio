@@ -21,12 +21,12 @@ export const Route = createFileRoute("/admin")({
 
 type Lead = {
   id: string;
-  name: string;
+  full_name: string;
   phone: string;
   email: string | null;
   message: string | null;
   status: string;
-  estimated_total: number | null;
+  estimated_price: number | null;
   created_at: string;
 };
 
@@ -48,10 +48,10 @@ function AdminPage() {
     queryFn: async (): Promise<Lead[]> => {
       const { data, error } = await supabase
         .from("leads")
-        .select("id,name,phone,email,message,status,estimated_total,created_at")
+        .select("id,full_name,phone,email,message,status,estimated_price,created_at")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data ?? []) as Lead[];
+      return (data ?? []) as unknown as Lead[];
     },
   });
   const { data: models = [] } = useQuery(modelsQuery);
@@ -120,14 +120,14 @@ function AdminPage() {
               {leads.map((l) => (
                 <tr key={l.id} className="border-t border-border align-top">
                   <td className="p-4">
-                    <p className="font-medium">{l.name}</p>
+                    <p className="font-medium">{l.full_name}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{l.message}</p>
                   </td>
                   <td className="p-4">
                     <p>{l.phone}</p>
                     <p className="text-xs text-muted-foreground">{l.email}</p>
                   </td>
-                  <td className="p-4">{l.estimated_total ? `${thb(l.estimated_total)} บ.` : "-"}</td>
+                  <td className="p-4">{l.estimated_price ? `${thb(l.estimated_price)} บ.` : "-"}</td>
                   <td className="p-4">
                     <select
                       className="h-9 rounded-md border border-input bg-card px-2"
