@@ -45,9 +45,13 @@ export function SiteFooter() {
             <li>LINE: {s['line_id']}</li>
             {s['facebook'] ? (
               <li>
-                <a href={s['facebook']} target="_blank" rel="noreferrer noopener">
-                  Facebook
-                </a>
+                {/^https?:\/\//.test(s['facebook']) ? (
+                  <a href={s['facebook']} target="_blank" rel="noreferrer noopener">
+                    Facebook
+                  </a>
+                ) : (
+                  <>Facebook: {s['facebook']}</>
+                )}
               </li>
             ) : null}
             {s['tiktok'] ? (
