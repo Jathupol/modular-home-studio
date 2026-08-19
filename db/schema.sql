@@ -179,8 +179,15 @@ create policy "admin update leads" on public.leads for update to authenticated u
 create policy "admin delete leads" on public.leads for delete to authenticated using (public.has_role(auth.uid(),'admin'));
 create trigger t_leads_updated before update on public.leads for each row execute function public.set_updated_at();
 
-create policy "anyone upload site media" on storage.objects for insert to anon, authenticated with check (bucket_id = 'site-media');
-create policy "admin read site media" on storage.objects for select to authenticated using (bucket_id = 'site-media' and public.has_role(auth.uid(),'admin'));
+-- Storage policies (Supabase only). Skipped automatically on plain PostgreSQL.
+do $$
+begin
+  if to_regclass('storage.objects') is not null then
+    execute $p$create policy "anyone upload site media" on storage.objects for insert to anon, authenticated with check (bucket_id = 'site-media')$p$;
+    execute $p$create policy "admin read site media" on storage.objects for select to authenticated using (bucket_id = 'site-media' and public.has_role(auth.uid(),'admin'))$p$;
+  end if;
+exception when duplicate_object then null;
+end $$;
 
 insert into public.site_settings (key, value) values
  ('phone','0800092139'),
