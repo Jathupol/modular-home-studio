@@ -1,0 +1,26 @@
+# รัน PostgreSQL ของตัวเองบนเครื่อง/เซิร์ฟเวอร์ใดก็ได้
+# ใช้งาน:  docker compose up -d  แล้วตั้ง
+#   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/knockdown"
+# จากนั้น  ./scripts/db.sh init
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: knockdown-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: knockdown
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      # ติดตั้ง schema อัตโนมัติในการรันครั้งแรก
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d knockdown"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
