@@ -21,7 +21,8 @@ begin
   if not exists (select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
                  where n.nspname = 'auth' and p.proname = 'uid') then
     execute $f$create function auth.uid() returns uuid language sql stable as
-      $b$select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid$b$$f$;
+      'select nullif(current_setting(''request.jwt.claim.sub'', true), '''')::uuid'
+    $f$;
   end if;
 end $$;
 
