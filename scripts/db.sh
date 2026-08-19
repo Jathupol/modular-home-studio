@@ -60,15 +60,18 @@ case "${1:-help}" in
   restore)
     FILE="${2:?ระบุไฟล์ที่จะกู้คืน เช่น ./scripts/db.sh restore backups/backup-xxx.dump}"
     [ -f "$FILE" ] || { echo "ไม่พบไฟล์ $FILE"; exit 1; }
+    need psql
+    # เตรียม role/auth.uid() ให้ก่อน เพื่อให้ RLS policy ในไฟล์สำรองกู้คืนได้บน Postgres ทั่วไป
+    [ -f db/prelude.sql ] && psql "$DATABASE_URL" -q -v ON_ERROR_STOP=1 -f db/prelude.sql
     case "$FILE" in
       *.dump) need pg_restore
               pg_restore --no-owner --no-privileges --clean --if-exists \
                 -d "$DATABASE_URL" "$FILE" ;;
-      *)      need psql
-              psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$FILE" ;;
+      *)      psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$FILE" ;;
     esac
     echo "กู้คืนเรียบร้อย ✅"
     ;;
+
 
   psql)
     need psql
