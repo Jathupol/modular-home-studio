@@ -6,7 +6,12 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// เมื่อ build บน Vercel (ตัวแปร VERCEL ถูกตั้งอัตโนมัติ) ให้ใช้ nitro preset "vercel"
+// ผลลัพธ์จะออกที่ .vercel/output ซึ่ง Vercel นำไป deploy ได้ทันที
+const isVercel = !!process.env["VERCEL"];
+
 export default defineConfig({
+  ...(isVercel ? { nitro: { preset: "vercel" } } : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
