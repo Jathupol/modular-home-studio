@@ -81,3 +81,14 @@ npm run build          # ผลลัพธ์อยู่ใน .output/ (Nitro
 - `src/integrations/supabase/*` — ตัวเชื่อมฐานข้อมูล (อ่านค่าจาก env)
 
 แก้ไขได้ทั้งหมด ไม่มีส่วนที่ถูกล็อกไว้
+
+## 7. Deploy บน Vercel
+
+1. Import repo เข้า Vercel (Framework Preset: **Other** — ไฟล์ `vercel.json` ตั้งค่าให้แล้ว)
+2. ตั้ง Environment Variables ใน Vercel (Settings > Environment Variables) ตาม `.env.example`:
+   - `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID` (ต้องมีตอน build)
+   - `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (runtime)
+3. Deploy — build จะรัน `npm run build` และสร้างผลลัพธ์ที่ `.vercel/output`
+   (vite.config.ts จะสลับเป็น nitro preset `vercel` อัตโนมัติเมื่อเจอตัวแปร `VERCEL`)
+
+> ถ้า deploy ผ่าน Vercel แล้ว ไม่จำเป็นต้องใช้ GitHub Actions ของ Azure — workflow นั้นจะข้ามขั้นตอน deploy เองถ้าไม่ได้ตั้งค่า
